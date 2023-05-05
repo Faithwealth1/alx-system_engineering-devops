@@ -1,12 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Displays all acive IPv4 addresses on the machine.
 
-# get the list of network interfaces
-interfaces=$(ifconfig -a | grep -oP '^\w+(?=:)' | uniq)
-
-# iterate over the network interfaces and get their IPv4 addresses
-for interface in $interfaces; do
-    ip_address=$(ifconfig $interface | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -1)
-    if [[ ! -z $ip_address ]]; then
-        echo "$interface: $ip_address"
-    fi
-done
+ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | cut -b 11-
