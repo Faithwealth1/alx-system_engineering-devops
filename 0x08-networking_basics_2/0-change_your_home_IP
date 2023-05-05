@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# update the package list
+sudo apt-get update
+
+# install the necessary packages
+sudo apt-get install -y dnsmasq
+
+# configure dnsmasq to resolve localhost to 127.0.0.2 and facebook.com to 8.8.8.8
+echo "address=/localhost/127.0.0.2" | sudo tee /etc/dnsmasq.d/localhost.conf
+echo "address=/facebook.com/8.8.8.8" | sudo tee /etc/dnsmasq.d/facebook.conf
+
+# restart dnsmasq
+sudo systemctl restart dnsmasq

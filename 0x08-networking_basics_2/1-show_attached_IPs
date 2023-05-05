@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# get the list of network interfaces
+interfaces=$(ifconfig -a | grep -oP '^\w+(?=:)' | uniq)
+
+# iterate over the network interfaces and get their IPv4 addresses
+for interface in $interfaces; do
+    ip_address=$(ifconfig $interface | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -1)
+    if [[ ! -z $ip_address ]]; then
+        echo "$interface: $ip_address"
+    fi
+done
